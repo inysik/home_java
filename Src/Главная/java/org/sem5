@@ -1,0 +1,67 @@
+Дз:
+1) Подсчитать количество вхождения каждого слова
+Пример:
+Россия идет вперед всей планеты. Планета — это не Россия.
+toLoverCase().
+ 
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Введите строку: ");
+        String s = scanner.nextLine().toLowerCase();
+        Map<String, Integer> wordCounts = countWords(s);
+        System.out.println("Количество вхождений каждого слова:");
+        for (Map.Entry<String, Integer> entry : wordCounts.entrySet()) {
+            System.out.println(entry.getKey() + ": " + entry.getValue());
+        }
+    }
+
+    public static Map<String, Integer> countWords(String s) {
+        Map<String, Integer> wordCounts = new HashMap<>();
+        String[] words = s.split("\\W+");
+        for (String word : words) {
+            if (wordCounts.containsKey(word)) {
+                wordCounts.put(word, wordCounts.get(word) + 1);
+            } else {
+                wordCounts.put(word, 1);
+            }
+        }
+        return wordCounts;
+    }
+}
+
+
+
+2) Подсчитать количество искомого слова, через map (наполнением значение, где искомое слово будет являться ключом)
+
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Введите строку: ");
+        String s = scanner.nextLine().toLowerCase();
+        System.out.print("Введите искомое слово: ");
+        String searchWord = scanner.nextLine().toLowerCase();
+        int count = countWord(s, searchWord);
+        System.out.println("Количество вхождений слова \"" + searchWord + "\": " + count);
+    }
+
+    public static int countWord(String s, String searchWord) {
+        Map<String, Integer> wordCounts = new HashMap<>();
+        String[] words = s.split("\\W+");
+        for (String word : words) {
+            if (wordCounts.containsKey(word)) {
+                wordCounts.put(word, wordCounts.get(word) + 1);
+            } else {
+                wordCounts.put(word, 1);
+            }
+        }
+        return wordCounts.getOrDefault(searchWord, 0);
+    }
+}
+
+
+
