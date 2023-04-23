@@ -1,0 +1,98 @@
+ДЗ:
+1)Вывести список на экран в перевернутом виде (без массивов и ArrayList)
+Пример:
+1 -> 2->3->4
+Вывод:
+4->3->2->1
+
+
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // Создаем первый элемент списка
+        Node head = new Node(scanner.nextInt());
+        Node current = head;
+
+        // Заполняем список элементами
+        while (scanner.hasNextInt()) {
+            Node node = new Node(scanner.nextInt());
+            current.setNext(node);
+            current = node;
+        }
+
+        // Выводим список в перевернутом виде
+        System.out.print("Вывод: ");
+        while (head != null) {
+            System.out.print(head.getValue() + "->");
+            head = head.getNext();
+        }
+        System.out.println("null");
+    }
+}
+
+class Node {
+    private int value;
+    private Node next;
+
+    public Node(int value) {
+        this.value = value;
+        this.next = null;
+    }
+
+    public int getValue() {
+        return value;
+    }
+
+    public void setValue(int value) {
+        this.value = value;
+    }
+
+    public Node getNext() {
+        return next;
+    }
+
+    public void setNext(Node next) {
+        this.next = next;
+    }
+}
+
+
+
+2)https://leetcode.com/problems/valid-parentheses/
+
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Введите строку: ");
+        String s = scanner.nextLine();
+        if (isValid(s)) {
+            System.out.println("Введенная строка является правильной скобочной последовательностью.");
+        } else {
+            System.out.println("Введенная строка не является правильной скобочной последовательностью.");
+        }
+    }
+
+    public static boolean isValid(String s) {
+        Stack<Character> stack = new Stack<>();
+        for (char c : s.toCharArray()) {
+            if (c == '(' || c == '{' || c == '[') {
+                stack.push(c);
+            } else if (c == ')' && !stack.isEmpty() && stack.peek() == '(') {
+                stack.pop();
+            } else if (c == '}' && !stack.isEmpty() && stack.peek() == '{') {
+                stack.pop();
+            } else if (c == ']' && !stack.isEmpty() && stack.peek() == '[') {
+                stack.pop();
+            } else {
+                return false;
+            }
+        }
+        return stack.isEmpty();
+    }
+}
+
