@@ -1,0 +1,180 @@
+1. Дан массив записей: наименование товара, цена, сорт. Найти наибольшую цену товаров 1го или 2го сорта среди товаров, название которых содержит «высший».
+public class Main {
+    public static void main(String[] args) {
+        String[][] products = {
+            {"Высший чай", "100", "1"},
+            {"Чайный напиток", "50", "2"},
+            {"Высший кофе", "150", "1"},
+            {"Кофейный напиток", "70", "2"}
+        };
+
+        double maxPrice = 0;
+
+        for (String[] product : products) {
+            String name = product[0];
+            double price = Double.parseDouble(product[1]);
+            int grade = Integer.parseInt(product[2]);
+
+            if (name.contains("высший") && (grade == 1 || grade == 2) && price > maxPrice) {
+                maxPrice = price;
+            }
+        }
+
+        if (maxPrice == 0) {
+            System.out.println("Товары, удовлетворяющие условию, не найдены.");
+        } else {
+            System.out.println("Наибольшая цена среди товаров 1 или 2 сорта с названием, содержащим 'высший': " + maxPrice);
+        }
+    }
+}
+
+2. Сведения о товаре состоят из наименования, страны-производителя, веса, цены, сорта. Получить наименования товаров заданного сорта с наименьшей ценой.
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Scanner;
+
+public class Product {
+    private String name;
+    private String country;
+    private double weight;
+    private double price;
+    private String sort;
+
+    public Product(String name, String country, double weight, double price, String sort) {
+        this.name = name;
+        this.country = country;
+        this.weight = weight;
+        this.price = price;
+        this.sort = sort;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getSort() {
+        return sort;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public static void main(String[] args) {
+        List<Product> products = new ArrayList<>();
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Введите количество товаров: ");
+        int n = scanner.nextInt();
+
+        for (int i = 0; i < n; i++) {
+            System.out.println("Товар " + (i + 1) + ":");
+            System.out.print("Наименование: ");
+            String name = scanner.next();
+            System.out.print("Страна-производитель: ");
+            String country = scanner.next();
+            System.out.print("Вес: ");
+            double weight = scanner.nextDouble();
+            System.out.print("Цена: ");
+            double price = scanner.nextDouble();
+            System.out.print("Сорт: ");
+            String sort = scanner.next();
+
+            Product product = new Product(name, country, weight, price, sort);
+            products.add(product);
+        }
+
+        System.out.print("Введите сорт товара: ");
+        String sort = scanner.next();
+
+        List<Product> filteredProducts = new ArrayList<>();
+        for (Product product : products) {
+            if (product.getSort().equalsIgnoreCase(sort)) {
+                filteredProducts.add(product);
+            }
+        }
+
+        if (filteredProducts.size() == 0) {
+            System.out.println("Товаров заданного сорта не найдено.");
+        } else {
+            Collections.sort(filteredProducts, Comparator.comparingDouble(Product::getPrice));
+            System.out.println("Наименования товаров заданного сорта с наименьшей ценой:");
+            for (Product product : filteredProducts) {
+                System.out.println(product.getName());
+            }
+        }
+    }
+}
+
+3. Сведения о книге состоят из названия, фамилии автора, цены, года издания и количества страниц. Найти названия книг, в которых простое количество страниц, фамилия автора содержит «А» и год издания после 2010 г, включительно.
+
+import java.util.ArrayList;
+
+public class Book {
+private String title;
+private String author;
+private double price;
+private int year;
+private int pages;
+
+public Book(String title, String author, double price, int year, int pages) {
+    this.title = title;
+    this.author = author;
+    this.price = price;
+    this.year = year;
+    this.pages = pages;
+}
+
+public String getTitle() {
+    return title;
+}
+
+public String getAuthor() {
+    return author;
+}
+
+public double getPrice() {
+    return price;
+}
+
+public int getYear() {
+    return year;
+}
+
+public int getPages() {
+    return pages;
+}
+
+public boolean isPrime(int num) {
+    if (num < 2) {
+        return false;
+    }
+    for (int i = 2; i <= Math.sqrt(num); i++) {
+        if (num % i == 0) {
+            return false;
+        }
+    }
+    return true;
+}
+
+public static void main(String[] args) {
+    ArrayList<Book> books = new ArrayList<>();
+
+    books.add(new Book("Harry Potter and the Philosopher's Stone", "J.K. Rowling", 9.99, 1997, 223));
+    books.add(new Book("The Lord of the Rings", "J.R.R. Tolkien", 14.99, 1954, 1178));
+    books.add(new Book("1984", "George Orwell", 6.99, 1949, 328));
+    books.add(new Book("To Kill a Mockingbird", "Harper Lee", 8.99, 1960, 324));
+    books.add(new Book("The Catcher in the Rye", "J.D. Salinger", 7.99, 1951, 277));
+    books.add(new Book("Pride and Prejudice", "Jane Austen", 5.99, 1813, 416));
+
+    for (Book book : books) {
+        if (book.isPrime(book.getPages()) && book.getAuthor().contains("A") && book.getYear() >= 2010) {
+            System.out.println(book.getTitle());
+        }
+    }
+}
+}
+
+
